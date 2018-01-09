@@ -9,7 +9,7 @@ class Client(models.Model):
     created_on = models.DateTimeField(auto_now_add=True, verbose_name='Data-Hora de Criação')
     updated_on = models.DateTimeField(auto_now=True, verbose_name='Data-Hora de Atualização')
 
-    def __str__(self): return '#%d (%s)' % (self.id, self.status)
+    def __str__(self): return self.name
 
     class Meta:
         verbose_name = 'Cliente'
