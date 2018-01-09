@@ -13,7 +13,7 @@ ORDER_STATUSES = (
     ('CANCELED', 'Cancelado')
 )
 
-TOKEN_TYPES = (
+SOURCES = (
     ('FACEBOOK', 'Facebook'),
     ('EMBED', 'Web')
 )
