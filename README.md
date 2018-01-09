@@ -1,2 +1,8 @@
 # pyfood
-pyFood is a Django web application connected with chatbot (via Dialogflow) 
+pyFood is a Django web application connected with chatbot (via Dialogflow)
+
+
+### super user
+ - username: admin
+ - email: admin@pyfood.com
+ - pass: fatec2018
