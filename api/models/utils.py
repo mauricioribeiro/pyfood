@@ -24,6 +24,10 @@ PRODUCT_CATEGORIES = (
     ('OTHER', 'Outro'),
 )
 
+# Webhook constants
+ORDER_FINISH = 'order.finish'
+
+
 class MoneyField(models.DecimalField):
     def __init__(self, *args, **kwargs):
         kwargs['max_digits'] = SMALL_LENGTH
