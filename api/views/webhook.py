@@ -3,8 +3,8 @@ from http.client import OK, NO_CONTENT
 from rest_framework import generics
 from rest_framework.response import Response
 
-from api.models.utils import ORDER_FINISH
 from api.serializers.webhook import WebhookSerializer
+from api.services.order import OrderService
 
 
 class WebhookView(generics.CreateAPIView):
@@ -13,12 +13,7 @@ class WebhookView(generics.CreateAPIView):
         data = WebhookSerializer(request)
 
         if data.source == 'facebook':
-
-            if data.action == ORDER_FINISH:
-                text = 'Aqui esta o que pediu:\n'
-                text += ' 2 x-bacons\n'
-                text += ' 4 heinekens\n'
-                text += '\n'
-                return Response(data.answer(text), OK)
+            order_service = OrderService(data)
+            return Response(order_service.answer(), OK)
 
         return Response(None, NO_CONTENT)

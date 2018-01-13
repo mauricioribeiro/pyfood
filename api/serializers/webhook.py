@@ -68,13 +68,3 @@ class WebhookSerializer:
 
             if 'sessionId' in data:
                 self.session_id = data['sessionId']
-
-    def answer(self, text, append_default_message=True):
-        message = text + " " + self.default_message if append_default_message and self.default_message else text
-        return {
-            "speech": message,
-            "displayText": message,
-            "contextOut": None,
-            "source": self.source,
-            "data": None
-        }
