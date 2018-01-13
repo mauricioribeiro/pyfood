@@ -5,6 +5,7 @@ from api import views
 
 urlpatterns = [
     # url(r'auth/$', obtain_auth_token, name='api-auth'),
+    url(r'^webhook/$', views.WebhookView.as_view(), name='api-webhook'),
 
     url(r'^products/$', views.ProductList.as_view(), name='api-product-list'),
     url(r'^products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='api-product-detail'),
