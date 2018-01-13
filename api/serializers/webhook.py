@@ -24,15 +24,23 @@ class WebhookSerializer:
                     if 'sender' in original_request['data'] and 'id' in original_request['data']['sender']:
                         self.sender_id = original_request['data']['sender']['id']
 
-                    if 'message' in original_request['data'] and 'text' in original_request['data']['message']:
-                        self.message = original_request['data']['message']['text']
-
             if 'result' in data:
-                if 'action' in data['result']:
-                    self.action = data['result']['action']
+                result = data['result']
 
-            if 'parameters' in data and data['parameters']:
-                self.parameters = data['parameters']
+                if 'action' in result:
+                    self.action = result['action']
+
+                if 'parameters' in result and result['parameters']:
+                    self.parameters = result['parameters']
+
+                    if 'number' in self.parameters and self.parameters['number']:
+                        self.parameters['number'] = int(self.parameters['number'])
+
+                if 'resolvedQuery' in result:
+                    self.message = result['resolvedQuery']
+
+                if 'score' in result:
+                    self.score = float(result['score'])
 
             if 'id' in data:
                 self.id = data['id']
