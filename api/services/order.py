@@ -1,5 +1,5 @@
 from api.models import Client, Order
-from api.models.utils import ORDER_FINISH, ORDER_STATUSES, ORDER_CREATE, OPENED, PROCESSED
+from api.models.utils import *
 from api.services.answer import AnswerService
 
 
@@ -19,6 +19,9 @@ class OrderService:
 
                 if self.data.action == ORDER_FINISH:
                     return self.finish(order)
+
+                if self.data.action == ORDER_CONFIRM:
+                    return self.confirm(client, order)
         return None
 
     def create(self, client, order):
@@ -43,10 +46,13 @@ class OrderService:
 
         return AnswerService.answer(answer, self.data.source)
 
-    def confirm_finish(self, order):
-        if order:
-            # TODO check if there is items
-            order.status = PROCESSED
-            order.save()
+    def confirm(self, client, order):
+        if self.data.contexts:
+
+            if FINISH_CONTEXT in self.data.contexts:
+                if order:
+                    # TODO check if there is items
+                    order.status = PROCESSED
+                    order.save()
         return None
 

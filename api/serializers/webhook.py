@@ -8,6 +8,7 @@ class WebhookSerializer:
         self.id = None
         self.source = None
         self.parameters = None
+        self.contexts = None
         self.message = None
         self.action = None
         self.score = None
@@ -53,6 +54,9 @@ class WebhookSerializer:
 
                     if 'number' in self.parameters and self.parameters['number']:
                         self.parameters['number'] = int(self.parameters['number'])
+
+                if 'contexts' in result and result['contexts']:
+                    self.contexts = [context['name'] for context in result['contexts']]
 
                 if 'resolvedQuery' in result:
                     self.message = result['resolvedQuery']

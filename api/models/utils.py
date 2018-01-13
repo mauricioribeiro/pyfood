@@ -36,8 +36,8 @@ ORDER_FINISH = 'order.finish'
 ORDER_CONFIRM = 'order.confirm'
 
 # Webhook contexts
-FINISH = 'finalizar'
-ASKING = 'montagem'
+FINISH_CONTEXT = 'finalizar'
+ASKING_CONTEXT = 'montagem'
 
 class MoneyField(models.DecimalField):
     def __init__(self, *args, **kwargs):
