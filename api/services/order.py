@@ -1,5 +1,5 @@
 from api.models import Client, Order
-from api.models.utils import ORDER_FINISH
+from api.models.utils import ORDER_FINISH, ORDER_STATUSES, ORDER_CREATE, OPENED, PROCESSED
 from api.services.answer import AnswerService
 
 
@@ -12,10 +12,28 @@ class OrderService:
         if self.data:
             if self.data.sender_id and self.data.source:
                 client = Client.objects.filter(token=self.data.sender_id, source=self.data.source.upper()).first()
-                order = Order.objects.filter(client=client).first() if client else None
+                order = Order.objects.filter(client=client, status=OPENED).first() if client else None
+
+                if self.data.action == ORDER_CREATE:
+                    return self.create(client, order)
 
                 if self.data.action == ORDER_FINISH:
                     return self.finish(order)
+        return None
+
+    def create(self, client, order):
+        if not client:
+            # TODO ask client name
+            client = Client(token=self.data.sender_id, source=self.data.source)
+            client.save()
+
+        if order:
+            # TODO ask to client if he wants to clear items
+            pass
+        else:
+            order = Order(client=client)
+            order.save()
+
         return None
 
     def finish(self, order):
@@ -26,5 +44,9 @@ class OrderService:
         return AnswerService.answer(answer, self.data.source)
 
     def confirm_finish(self, order):
-        pass
+        if order:
+            # TODO check if there is items
+            order.status = PROCESSED
+            order.save()
+        return None
 

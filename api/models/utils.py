@@ -5,12 +5,18 @@ SMALL_LENGTH = 25
 MEDIUM_LENGTH = 100
 LARGE_LENGTH = 250
 
+OPENED = 'OPENED'
+PROCESSED = 'PROCESSED'
+SENT = 'SENT'
+DELIVERED = 'DELIVERED'
+CANCELED = 'CANCELED'
+
 ORDER_STATUSES = (
-    ('OPENED', 'Aberto'),
-    ('PROCESSED', 'Processado'),
-    ('SENT', 'Enviado'),
-    ('DELIVERED', 'Entregue'),
-    ('CANCELED', 'Cancelado')
+    (OPENED, 'Aberto'),
+    (PROCESSED, 'Processado'),
+    (SENT, 'Enviado'),
+    (DELIVERED, 'Entregue'),
+    (CANCELED, 'Cancelado')
 )
 
 SOURCES = (
@@ -24,9 +30,14 @@ PRODUCT_CATEGORIES = (
     ('OTHER', 'Outro'),
 )
 
-# Webhook constants
+# Webhook actions
+ORDER_CREATE = 'order.create'
 ORDER_FINISH = 'order.finish'
+ORDER_CONFIRM = 'order.confirm'
 
+# Webhook contexts
+FINISH = 'finalizar'
+ASKING = 'montagem'
 
 class MoneyField(models.DecimalField):
     def __init__(self, *args, **kwargs):

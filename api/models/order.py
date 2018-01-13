@@ -1,12 +1,13 @@
 from django.db import models
 
 from api.models.client import Client
+from api.models.utils import OPENED
 from . import utils
 
 
 class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='orders', verbose_name='Cliente')
-    status = models.CharField(max_length=utils.MEDIUM_LENGTH, choices=utils.ORDER_STATUSES, default='OPENED', verbose_name='Status')
+    status = models.CharField(max_length=utils.MEDIUM_LENGTH, choices=utils.ORDER_STATUSES, default=OPENED, verbose_name='Status')
     created_on = models.DateTimeField(auto_now_add=True, verbose_name='Data-Hora de Criação')
     updated_on = models.DateTimeField(auto_now=True, verbose_name='Data-Hora de Atualização')
 
