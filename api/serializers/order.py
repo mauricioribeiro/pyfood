@@ -8,10 +8,8 @@ class OrderSerializer(ModelSerializer):
         model = models.Order
         fields = (
             'id',
-            'name',
-            'keyword',
-            'category',
-            'price',
+            'client',
+            'status',
             'created_on',
             'updated_on'
         )
