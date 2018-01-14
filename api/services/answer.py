@@ -14,11 +14,17 @@ class AnswerService:
         }
 
     @staticmethod
-    def order_items(items):
-        answer = 'Aqui está o que pediu:\n'
-        for item in items:
-            answer += ' %s\n' % item
-        answer += '\n'
+    def get_money(value):
+        if value:
+            return 'R$ %.2f' % round(float(value), 2)
+        return None
+
+    @staticmethod
+    def order_items(order):
+        answer = 'Aqui está o que pediu:\n\n'
+        for item in order.items.all():
+            answer += '%d %s %s\n' % (item.amount, item.name, AnswerService.get_money(item.product.price))
+        answer += '\nTotal: %s\n' % AnswerService.get_money(order.total)
         return answer
 
     @staticmethod

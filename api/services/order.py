@@ -105,13 +105,13 @@ class OrderService:
     def list_items(self, order):
         answer = AnswerService.order_not_found()
         if order:
-            answer = self.data.default_message + " " + AnswerService.order_items(order.item_names)
+            answer = self.data.default_message + " " + AnswerService.order_items(order)
         return AnswerService.answer(answer, self.data.source)
 
     def finish(self, order):
         answer = AnswerService.order_not_found()
         if order:
-            answer = AnswerService.order_items(order.item_names) + self.data.default_message
+            answer = AnswerService.order_items(order) + self.data.default_message
 
         return AnswerService.answer(answer, self.data.source)
 
