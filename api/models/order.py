@@ -16,10 +16,15 @@ class Order(models.Model):
 
     @property
     def item_names(self):
-        items = []
         if self.items:
-            return ['%d %s' % (item.amount, item.name) for item in self.items]
-        return None
+            return ['%d %s' % (item.amount, item.name) for item in self.items.all()]
+        return []
+
+    @property
+    def total(self):
+        if self.items:
+            return sum([item.total for item in self.items.all()])
+        return 0
 
     class Meta:
         verbose_name = 'Pedido'

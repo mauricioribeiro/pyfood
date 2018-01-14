@@ -14,6 +14,7 @@ class ItemSerializer(ModelSerializer):
             'order',
             'product',
             'amount',
+            'total',
             'created_on',
             'updated_on'
         )

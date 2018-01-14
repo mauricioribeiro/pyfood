@@ -14,6 +14,12 @@ class Item(models.Model):
     def name(self):
         return self.product.name if self.product else None
 
+    @property
+    def total(self):
+        if self.amount and self.product and self.product.price:
+            return self.amount * float(self.product.price)
+        return None
+
     def __str__(self): return '%s - %s' % (self.name, self.order)
 
     class Meta:

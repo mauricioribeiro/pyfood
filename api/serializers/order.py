@@ -14,6 +14,7 @@ class OrderSerializer(ModelSerializer):
             'client',
             'items',
             'status',
+            'total',
             'created_on',
             'updated_on'
         )

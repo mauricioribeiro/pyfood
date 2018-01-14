@@ -33,6 +33,8 @@ PRODUCT_CATEGORIES = (
 # Webhook actions
 ORDER_CREATE = 'order.create'
 ORDER_ADD_ITEM = 'order.add_item'
+ORDER_REMOVE_ITEM = 'order.remove_item'
+ORDER_LIST_ITEMS = 'order.list_items'
 ORDER_FINISH = 'order.finish'
 ORDER_CONFIRM = 'order.confirm'
 
@@ -40,6 +42,7 @@ ORDER_CONFIRM = 'order.confirm'
 GENERIC_CONTEXT = 'generic'
 FINISH_CONTEXT = 'finalizar'
 ASKING_CONTEXT = 'montagem'
+
 
 class MoneyField(models.DecimalField):
     def __init__(self, *args, **kwargs):
