@@ -1,6 +1,7 @@
 from api.models import Client, Order, Product, Item
 from api.models.utils import *
 from api.services.answer import AnswerService
+from api.services.message import MessageService
 
 
 class OrderService:
@@ -28,6 +29,8 @@ class OrderService:
             if self.data.sender_id and self.data.source:
                 client = Client.objects.filter(token=self.data.sender_id, source=self.data.source.upper()).first()
                 order = Order.objects.filter(client=client, status=OPENED).first() if client else None
+
+                MessageService.log(self.data, client)
 
                 if self.data.action == ORDER_CREATE:
                     return self.create(client, order)
