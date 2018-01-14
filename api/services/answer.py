@@ -14,8 +14,8 @@ class AnswerService:
         }
 
     @staticmethod
-    def order_finish(items):
-        answer = 'Aqui esta o que pediu:\n'
+    def order_items(items):
+        answer = 'Aqui está o que pediu:\n'
         for item in items:
             answer += ' %s\n' % item
         answer += '\n'
