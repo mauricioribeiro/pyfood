@@ -9,6 +9,7 @@ class OrderSerializer(ModelSerializer):
         fields = (
             'id',
             'client',
+            'items',
             'status',
             'created_on',
             'updated_on'

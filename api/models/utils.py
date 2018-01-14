@@ -32,10 +32,12 @@ PRODUCT_CATEGORIES = (
 
 # Webhook actions
 ORDER_CREATE = 'order.create'
+ORDER_ADD_ITEM = 'order.add_item'
 ORDER_FINISH = 'order.finish'
 ORDER_CONFIRM = 'order.confirm'
 
 # Webhook contexts
+GENERIC_CONTEXT = 'generic'
 FINISH_CONTEXT = 'finalizar'
 ASKING_CONTEXT = 'montagem'
 

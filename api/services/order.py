@@ -1,4 +1,4 @@
-from api.models import Client, Order
+from api.models import Client, Order, Product, Item
 from api.models.utils import *
 from api.services.answer import AnswerService
 
@@ -16,6 +16,9 @@ class OrderService:
 
                 if self.data.action == ORDER_CREATE:
                     return self.create(client, order)
+
+                if self.data.action == ORDER_ADD_ITEM:
+                    return self.add_item(order)
 
                 if self.data.action == ORDER_FINISH:
                     return self.finish(order)
@@ -39,10 +42,36 @@ class OrderService:
 
         return None
 
+    def add_item(self, order):
+        if self.data.parameters:
+            keyword, amount = None, None
+
+            if self.data.parameters['food']:
+                keyword = self.data.parameters['food']
+
+            if self.data.parameters['drink']:
+                keyword = self.data.parameters['drink']
+
+            if self.data.parameters['amount']:
+                amount = int(self.data.parameters['amount'])
+
+            if keyword:
+                product = Product.objects.filter(keyword=keyword).first()
+
+                if product:
+                    item = Item(order=order, product=product, amount=amount)
+                    item.save()
+                    return None
+
+                return AnswerService.answer(AnswerService.product_not_found(keyword))
+            else:
+                AnswerService.answer(AnswerService.product_is_required())
+        return None
+
     def finish(self, order):
         answer = AnswerService.order_not_found()
         if order:
-            answer = AnswerService.order_finish(['1 x-bacon', '4 heinekens']) + self.data.default_message
+            answer = AnswerService.order_finish(order.item_names) + self.data.default_message
 
         return AnswerService.answer(answer, self.data.source)
 
