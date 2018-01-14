@@ -4,7 +4,7 @@ from api.models import Message, Client
 class MessageService:
 
     @staticmethod
-    def log(webhook_data, client=None):
+    def log(webhook_data, client=None, order=None):
         if webhook_data:
             if not client:
                 client = Client.objects.filter(
@@ -17,6 +17,8 @@ class MessageService:
                 content=webhook_data.message,
                 source=webhook_data.source,
                 session=webhook_data.session_id,
-                client=client)
+                client=client,
+                order=order
+            )
             return message.save()
         return False
