@@ -8,6 +8,21 @@ class OrderService:
     def __init__(self, webhook_data):
         self.data = webhook_data
 
+    def extract_parameters(self):
+        keyword, amount = None, None
+
+        if self.data.parameters:
+            if self.data.parameters['food']:
+                keyword = self.data.parameters['food']
+
+            if self.data.parameters['drink']:
+                keyword = self.data.parameters['drink']
+
+            if self.data.parameters['amount']:
+                amount = int(self.data.parameters['amount'])
+
+        return keyword, amount
+
     def answer(self):
         if self.data:
             if self.data.sender_id and self.data.source:
@@ -19,6 +34,9 @@ class OrderService:
 
                 if self.data.action == ORDER_ADD_ITEM:
                     return self.add_item(order)
+
+                if self.data.action == ORDER_REMOVE_ITEM:
+                    return self.remove_item(order)
 
                 if self.data.action == ORDER_FINISH:
                     return self.finish(order)
@@ -43,30 +61,43 @@ class OrderService:
         return None
 
     def add_item(self, order):
-        if self.data.parameters:
-            keyword, amount = None, None
+        keyword, amount = self.extract_parameters()
 
-            if self.data.parameters['food']:
-                keyword = self.data.parameters['food']
+        if keyword:
+            product = Product.objects.filter(keyword=keyword).first()
 
-            if self.data.parameters['drink']:
-                keyword = self.data.parameters['drink']
+            if product:
+                item = Item(order=order, product=product, amount=amount)
+                item.save()
+                return None
 
-            if self.data.parameters['amount']:
-                amount = int(self.data.parameters['amount'])
+            return AnswerService.answer(AnswerService.product_not_found(keyword))
+        return AnswerService.answer(AnswerService.product_is_required())
 
-            if keyword:
-                product = Product.objects.filter(keyword=keyword).first()
+    def remove_item(self, order):
+        keyword, amount = self.extract_parameters()
+        if keyword:
+            if order.items:
 
-                if product:
-                    item = Item(order=order, product=product, amount=amount)
-                    item.save()
-                    return None
+                for item in order.items.all():
+                    if item.product.keyword == keyword:
+                        if not amount:
+                            amount = 1
 
-                return AnswerService.answer(AnswerService.product_not_found(keyword))
-            else:
-                AnswerService.answer(AnswerService.product_is_required())
-        return None
+                        if amount > item.amount:
+                            return AnswerService.answer(AnswerService.remove_item_amount_is_invalid(amount, item))
+
+                        if amount == item.amount:
+                            item.delete()
+                        else:
+                            item.amount = item.amount - amount
+                            item.save()
+
+                        return None
+
+                return AnswerService.answer(AnswerService.product_not_found_in_order(keyword))
+            return AnswerService.answer(AnswerService.order_is_empty())
+        return AnswerService.answer(AnswerService.product_is_required())
 
     def finish(self, order):
         answer = AnswerService.order_not_found()
@@ -84,4 +115,3 @@ class OrderService:
                     order.status = PROCESSED
                     order.save()
         return None
-
