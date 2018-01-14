@@ -1,6 +1,7 @@
 from api.models import Client, Order, Product, Item
 from api.models.utils import *
 from api.services.answer import AnswerService
+from api.services.facebook import FacebookService
 from api.services.message import MessageService
 
 
@@ -53,8 +54,14 @@ class OrderService:
 
     def create(self, client, order):
         if not client:
-            # TODO ask client name
-            client = Client(token=self.data.sender_id, source=self.data.source)
+            name = None
+
+            if self.data.source == 'facebook':
+                facebook_user = FacebookService.get_user_info(self.data.sender_id)
+                if facebook_user['first_name'] and facebook_user['last_name']:
+                    name = facebook_user['first_name'] + " " + facebook_user['last_name']
+
+            client = Client(token=self.data.sender_id, source=self.data.source, name=name)
             client.save()
 
         if order:
