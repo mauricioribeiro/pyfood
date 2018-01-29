@@ -3,7 +3,7 @@
 
     angular.module('app')
         .controller('AppCtrl', ['$scope', '$rootScope', '$state', '$document', 'appConfig', 'AppUtilsService', 'AuthService', 'UserService', AppCtrl]); // overall control
-    
+
     function AppCtrl($scope, $rootScope, $state, $document, appConfig, AppUtilsService, AuthService, UserService) {
 
         $scope.pageTransitionOpts = appConfig.pageTransitionOpts;
@@ -61,9 +61,9 @@
             $scope.myUser = response.data;
         }
         function getMyUserError(data){
-            AppUtilsService.showErrorToast('Ops, parece que você está deslogado...');
-            $state.go('login');
+            //AppUtilsService.showErrorToast('Ops, parece que você está deslogado...');
+            //$state.go('login');
         }
     }
 
-})(); 
+})();

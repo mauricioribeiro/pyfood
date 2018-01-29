@@ -20,7 +20,6 @@
         // 3rd party feature modules
         ,'md.data.table'
         ,'ngStorage'
-        ,'material.components.eventCalendar'
         ,'ui.utils.masks'
     ]);
 

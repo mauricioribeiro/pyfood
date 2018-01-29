@@ -5,8 +5,7 @@
         .factory('appConfig', [appConfig])
         .config(['$mdThemingProvider', mdConfig])
         .config(['$httpProvider', httpConfig])
-        .config(['$mdDateLocaleProvider', mdDateLocaleConfig])
-        // .config(['cloudinaryProvider', cloudinaryConfig]);
+        .config(['$mdDateLocaleProvider', mdDateLocaleConfig]);
 
     function appConfig() {
         var pageTransitionOpts = [
@@ -27,8 +26,8 @@
         var date = new Date();
         var year = date.getFullYear();
         var main = {
-            brand: 'Pos Vale',
-            name: 'Lisa',
+            brand: 'pyFood',
+            name: 'Py Food',
             year: year,
             layout: 'wide',                                 // String: 'boxed', 'wide'
             menu: 'vertical',                               // String: 'horizontal', 'vertical'
@@ -106,13 +105,6 @@
             }
             return null;
         };
-    }
-
-    function cloudinaryConfig(cloudinaryProvider){
-        cloudinaryProvider
-            .set("cloud_name", "mauricioribeiro")
-            .set("secure", true)
-            .set("upload_preset", "pyfood");
     }
 
 })();

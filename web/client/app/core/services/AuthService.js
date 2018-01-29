@@ -30,7 +30,7 @@
 
         this.authorize = function(){
 
-            return true; 
+            return true;
 
             return UserService.getMyUser().$promise.then(getMyAccountThen);
 
