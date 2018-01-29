@@ -20,5 +20,6 @@ class MessageService:
                 client=client,
                 order=order
             )
-            return message.save()
+            message.save()
+            return message
         return False

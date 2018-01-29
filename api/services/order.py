@@ -1,3 +1,4 @@
+from api.consumers import ws_send
 from api.models import Client, Order, Product, Item
 from api.models.utils import *
 from api.services.answer import AnswerService
@@ -31,7 +32,8 @@ class OrderService:
                 client = Client.objects.filter(token=self.data.sender_id, source=self.data.source.upper()).first()
                 order = Order.objects.filter(client=client, status=OPENED).first() if client else None
 
-                MessageService.log(self.data, client, order)
+                message = MessageService.log(self.data, client, order)
+                ws_send(message.content)
 
                 if self.data.action == ORDER_CREATE:
                     return self.create(client, order)

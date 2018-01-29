@@ -8,4 +8,4 @@ pytz==2017.3
 requests==2.18.4
 urllib3==1.22
 channels==1.0.2
-asgi_redis==1.0.0
+asgi_redis==1.4.3
