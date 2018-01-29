@@ -1,0 +1,93 @@
+<div class="page page-taxes">
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header"><md-icon>settings</md-icon> Configuração de Taxas</h2>
+        </div>
+        <div class="col-md-12">
+            <article>
+                <md-card class="no-margin-h">
+                    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                        <div class="md-toolbar-tools">
+                            <span>Lista</span>
+                            <div flex></div>
+                            <md-button class="md-icon-button" ng-click="load()">
+                                <md-tooltip md-direction="left">Atualizar</md-tooltip>
+                                <md-icon>refresh</md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+
+                    <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                        <div class="md-toolbar-tools">
+                            <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selecionado</span>
+                        </div>
+                    </md-toolbar>
+
+                    <md-table-container>
+                        <table md-table md-progress="promise">
+                            <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                                <tr md-row>
+                                    <th md-column md-order-by="flags_id"><span>Bandeira</span></th>
+                                    <th md-column md-order-by="additional.operators_id"><span>Operadora</span></th>
+                                    <th md-column md-order-by="payment_methods_id"><span>Modalidade</span></th>
+                                    <th md-column md-order-by="tax_percentage"><span>Taxa</span></th>
+                                    <th md-column md-order-by="in_use"><span>Em Uso</span></th>
+                                    <th md-column md-order-by="created_by"><span>Criado por</span></th>
+                                    <th md-column md-order-by="created_at"><span>Criado em</span></th>
+                                    <th md-column md-order-by="updated_at"><span>Atualizado em</span></th>
+                                    <th md-column md-numeric></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row ng-repeat="tax in taxes.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                                    <td md-cell>
+                                        <img ng-if="tax.flag.photo_url" ng-src="{{tax.flag.photo_url}}" class="img-circle img30_30">
+                                        <md-icon ng-if="!tax.flag.photo_url"><md-tooltip>Sem imagem</md-tooltip> visibility_off</md-icon>
+                                        <span class="img-icon-span">{{tax.flag.name || '---'}}</span>
+                                    </td>
+                                    <td md-cell ng-if="tax.additional.operators_id">
+                                        <img ng-if="tax.additional.operator.photo_url" ng-src="{{tax.additional.operator.photo_url}}" class="img-circle img30_30">
+                                        <md-icon ng-if="!tax.additional.operator.photo_url"><md-tooltip>Sem imagem</md-tooltip> visibility_off</md-icon>
+                                        <span class="img-icon-span">{{tax.additional.operator.name || '---'}}</span>
+                                    </td>
+                                    <td md-cell ng-if="!tax.additional.operators_id">---</td>
+                                    <td md-cell>{{tax.payment_method.name || '---'}}</td>
+                                    <td md-cell>{{tax.tax_percentage | number:2 }}%</td>
+                                    <td md-cell>
+                                        <span ng-if="tax.in_use" class="ui-highlight colored">Sim</span>
+                                        <span ng-if="!tax.in_use" class="ui-highlight">Não</span>
+                                    </td>
+                                    <td md-cell>{{tax.creator.name}}</td>
+                                    <td md-cell>{{tax.created_at | date: 'dd/MM/yyyy HH:mm'}}</td>
+                                    <td md-cell>{{tax.updated_at | date: 'dd/MM/yyyy HH:mm'}}</td>
+                                    <td md-cell>
+                                        <md-menu ng-show="can.edit || can.delete">
+                                            <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                                                <md-icon md-menu-origin>more_vert</md-icon>
+                                            </md-button>
+                                            <md-menu-content>
+                                                <md-menu-item ng-if="can.edit">
+                                                    <md-button ng-click="edit(tax)">
+                                                        <md-icon md-menu-align-target>create</md-icon>
+                                                        Editar
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item ng-if="can.delete">
+                                                    <md-button ng-click="remove(tax)">
+                                                        <md-icon md-menu-align-target>delete</md-icon>
+                                                        Excluir
+                                                    </md-button>
+                                                </md-menu-item>
+                                            </md-menu-content>
+                                        </md-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-label="{{ pagination }}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{taxes.count}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+                </md-card>
+            </article>
+        </div>
+    </div>
+</div>

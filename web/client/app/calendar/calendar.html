@@ -1,0 +1,103 @@
+<div class="page page-calendar">
+    <div class="row">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header"><md-icon>event</md-icon> Calendário</h2>
+        </div>
+
+        <div class="col-md-12">
+            <md-card>
+                <md-card-content>
+                    <md-event-calendar
+                            ng-model="selected"
+                            md-events="events"
+                            md-event-click="openDay($selectedEvent)"
+                            md-label="title"
+                            md-show-create-link="false"
+                            md-create-event-click="eventCreatea($date)"
+                            md-create-disabled="false"
+                            auto-height=""
+                            class="md-primary">
+                        <md-event-calendar-header class="md-center">
+                            <md-event-calendar-prev></md-event-calendar-prev>
+                            <md-event-calendar-title></md-event-calendar-title>
+                            <md-event-calendar-next></md-event-calendar-next>
+                        </md-event-calendar-header>
+                    </md-event-calendar>
+                </md-card-content>
+            </md-card>
+        </div>
+    </div>
+</div>
+
+<md-button aria-label="filter" class="md-fab md-fab-bottom-right md-primary" ng-click="openFilterSidenav()">
+    <md-icon>filter_list</md-icon>
+</md-button>
+
+<md-sidenav class="md-sidenav-right" md-component-id="calendar-details" md-whiteframe="12">
+    <md-toolbar class="md-hue-2">
+        <h1 class="md-toolbar-tools">Recebimentos</h1>
+    </md-toolbar>
+    <md-content layout-padding>
+        <h4 md-truncate><md-icon>receipt</md-icon> Recebimentos</h4>
+        <div layout="column" flex>
+            <md-list flex>
+                <div ng-repeat="item in selected.items">
+                    <md-list-item class="md-3-line">
+                        <img ng-if="item.flag_photo_url" ng-src="{{item.flag_photo_url}}" class="md-avatar img-circle img30_30">
+                        <md-icon ng-if="!item.flag_photo_url"><md-tooltip>Sem imagem</md-tooltip> visibility_off</md-icon>
+
+                        <div class="md-list-item-text receipt-details md-padding" layout="column">
+                            <h3>{{ item.net_value | currency:'R$ ' }}</h3>
+                            <h4></h4>
+                            <p>
+                                <md-tooltip md-direction="left">Modalidade</md-tooltip>
+                                <md-icon>credit_card</md-icon>
+                                <span>{{ item.payment_method_name }}</span>
+                            </p>
+                            <p>
+                                <md-tooltip md-direction="left">Máquina</md-tooltip>
+                                <md-icon>account_balance_wallet</md-icon>
+                                <span>{{ item.machine_name }}</span>
+                            </p>
+                            <p>
+                                <md-tooltip md-direction="left">Data da Venda</md-tooltip>
+                                <md-icon>access_time</md-icon>
+                                <span>{{ item.sale_created_at | date:'dd/MM/yyyy' || '---' }}</span>
+                            </p>
+                            <p>
+                                <md-tooltip md-direction="left">NSU</md-tooltip>
+                                <md-icon>description</md-icon>
+                                <span>{{ item.sale_nsu || '---' }}</span>
+                            </p>
+                        </div>
+                    </md-list-item>
+                    <md-divider ng-if="!$last"></md-divider>
+                </div>
+            </md-list>
+            <md-button class="md-block md-raised" ng-click="closeDetailsSidenav()">Voltar para o Calendário</md-button>
+        </div>
+    </md-content>
+</md-sidenav>
+
+<md-sidenav class="md-sidenav-right" md-component-id="calendar-filter" md-whiteframe="12">
+    <md-toolbar class="md-hue-2">
+        <h1 class="md-toolbar-tools">Filtro</h1>
+    </md-toolbar>
+    <md-content layout-padding>
+        <h4 md-truncate><md-icon>filter_list</md-icon> Filtro</h4>
+        <div layout="column" flex>
+            <md-input-container>
+                <label>Data inicial</label>
+                <md-datepicker name="startDate" ng-model="filter.start_date"></md-datepicker>
+            </md-input-container>
+            <md-input-container>
+                <label>Data final</label>
+                <md-datepicker name="endDate" ng-model="filter.end_date"></md-datepicker>
+            </md-input-container>
+            <md-button class="md-block md-raised" ng-click="loadFilter()" ng-disabled="!promise.$resolved">Filtrar</md-button>
+            <br>
+            <md-button class="md-block md-raised" ng-click="closeFilterSidenav()" ng-disabled="!promise.$resolved">Voltar para o Calendário</md-button>
+        </div>
+    </md-content>
+</md-sidenav>
+    

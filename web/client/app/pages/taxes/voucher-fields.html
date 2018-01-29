@@ -1,0 +1,101 @@
+<div layout-padding ng-cloak layout="column" class="md-inline-form">
+    <form name="voucherEditForm" ng-submit="save()">
+
+        <div layout>
+            <md-input-container flex>
+                <label>Bandeira</label>
+                <md-select name="flag" ng-model="tax.flags_id" ng-disabled="tax.id" ng-change="check()" required>
+                    <md-option ng-repeat="flag in flags | filter:{type:'VOUCHER'} track by flag.id" ng-value="flag.id">{{flag.name}}</md-option>
+                </md-select>
+                <div ng-messages="debitoEditForm.flag.$error" multiple>
+                    <div ng-message="required">A bandeira é obrigatória.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Produto</label>
+                <md-select name="voucherProduct" ng-model="tax.additional.voucher_products_id" ng-change="check()" ng-disabled="tax.id" required>
+                    <md-option ng-repeat="voucherProduct in voucherProducts track by voucherProduct.id" ng-value="voucherProduct.id">{{voucherProduct.name}}</md-option>
+                </md-select>
+                <div ng-messages="voucherEditForm.voucherProduct.$error" ng-if='voucherEditForm.voucherProduct.$dirty'>
+                    <div ng-message="required">Este campo é obrigatório.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Porcentagem da Taxa</label>
+                <input name="taxPercentage" ng-model="tax.tax_percentage" ui-percentage-mask>
+                <div ng-messages="voucherEditForm.taxPercentage.$error" multiple ng-if='voucherEditForm.taxPercentage.$dirty'>
+                    <div ng-message="pattern">A Porcentagem da Taxa deve ser entrada em números e ponto como separador decimal.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Dias de Reembolso</label>
+                <input name="repaymentDays" ng-model="tax.additional.repayment_days" ng-pattern="/^[\.0-9]+$/">
+                <div ng-messages="voucherEditForm.repaymentDays.$error" multiple ng-if='voucherEditForm.repaymentDays.$dirty'>
+                    <div ng-message="pattern">A Porcentagem da Taxa deve ser entrada em números e ponto como separador decimal.</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container flex>
+                <label>Dia de Corte</label>
+                <md-select name="cutoffWeekDay" ng-model="tax.additional.cutoff_weekday" aria-label="select" required>
+                    <md-option ng-repeat="cutoffWeekDay in cutoffWeekDays" ng-value="cutoffWeekDay.value">{{cutoffWeekDay.name}}</md-option>
+                </md-select>
+                <div ng-messages="voucherEditForm.cutoffWeekDay.$error" ng-if='voucherEditForm.cutoffWeekDay.$dirty'>
+                    <div ng-message="required">Este campo é obrigatório.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Valor do Doc</label>
+                <input name="docValue" ng-model="tax.additional.doc_value" ui-money-mask>
+                <div ng-messages="voucherEditForm.docValue.$error" multiple ng-if='voucherEditForm.docValue.$dirty'>
+                    <div ng-message="pattern">O valor doc deve ser entrado em números e ponto como separador decimal.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Valor da Tarifa</label>
+                <input name="tariffValue" ng-model="tax.additional.tariff_value" ui-money-mask>
+                <div ng-messages="voucherEditForm.tariffValue.$error" multiple ng-if='voucherEditForm.tariffValue.$dirty'>
+                    <div ng-message="pattern">O valor da tarifa deve ser entrado em números e ponto como separador decimal.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Valor de Adesão</label>
+                <input name="admissionValue" ng-model="tax.additional.admission_value" ui-money-mask>
+                <div ng-messages="voucherEditForm.admissionValue.$error" multiple ng-if='voucherEditForm.admissionValue.$dirty'>
+                    <div ng-message="pattern">O valor da adesão deve ser entrado em números e ponto como separador decimal.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <div layout>
+            <md-input-container flex>
+                <label>Valor da Anuidade</label>
+                <input name="annuityValue" ng-model="tax.additional.annuity_value" ui-money-mask>
+                <div ng-messages="voucherEditForm.annuityValue.$error" multiple ng-if='voucherEditForm.annuityValue.$dirty'>
+                    <div ng-message="pattern">O valor da anuidade deve ser entrado em números e ponto como separador decimal.</div>
+                </div>
+            </md-input-container>
+        </div>
+
+        <md-button type="submit" class="md-raised btn-w-md md-primary" ng-hide="saving" ng-disabled="voucherEditForm.$invalid">Salvar</md-button>
+        <md-progress-circular ng-show="saving" md-diameter="25px"></md-progress-circular>
+    </form>
+</div>

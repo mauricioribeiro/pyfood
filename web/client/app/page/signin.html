@@ -1,0 +1,64 @@
+<div class="page-signin">
+
+    <div class="wrapper">
+        <div class="main-body">
+            <div class="body-inner">
+                <div class="card bg-white">
+                    <div class="card-content">
+
+                        <section class="logo text-center">
+                            <h1><a href="{{main.link}}" title="{{main.brand}}" target="_blank"><img src="assets/images/logo.jpg" alt=""></a></h1>
+                        </section>
+
+                        <div layout="row" layout-sm="column" layout-align="space-around" ng-if="logging">
+                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                        </div>
+
+                        <form name="authForm" class="form-horizontal" ng-submit="login()" ng-if="!logging">
+                            <div layout layout-sm="column">
+                                <md-input-container flex>
+                                    <label>Usuário</label>
+                                    <input required
+                                           type="text"
+                                           name="username"
+                                           ng-model="user.username"
+                                           ng-pattern="/^[\w\-\.]+$/" />
+                                    <div ng-messages="authForm.username.$error" multiple ng-if='authForm.username.$dirty'>
+                                        <div ng-message="required">O usuário é obrigatório.</div>
+                                        <div ng-message="pattern">O usuário é inválido.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout layout-sm="column">
+                                <md-input-container flex>
+                                    <label>Senha</label>
+                                    <input name="password"
+                                           type="password"
+                                           ng-model="user.password"
+                                           required>
+                                    <div ng-messages="authForm.password.$error" multiple ng-if='authForm.password.$dirty'>
+                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div class="card-action no-border text-right">
+                                <md-button type="submit" ng-disabled="authForm.$invalid" class="md-raised btn-w-md md-accent">Entrar</md-button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="additional-info">
+                    <!--
+                    <a href="#!/page/signup">Criar conta</a>
+                    <span class="divider-h"></span>
+                    -->
+                    <a href="#!/forgot-password">Esqueci minha senha</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

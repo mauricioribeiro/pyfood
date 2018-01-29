@@ -1,0 +1,44 @@
+<div class="page page-payment-methods">
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header"><md-icon>style</md-icon> Produtos Voucher</h2>
+        </div>
+        <div class="col-md-12">
+            <article>
+                <md-card class="no-margin-h">
+                    <md-toolbar class="md-table-toolbar md-default">
+                        <div class="md-toolbar-tools">
+                            <span>Edição</span>
+                        </div>
+                    </md-toolbar>
+                    <div class="panel-body padding-xl">
+                        <div class="row">
+                            <div class=" col-lg-8 col-lg-offset-2">
+                                <div layout="column" ng-cloak class="md-inline-form">
+                                    <div layout-padding>
+                                        <form name="editForm" ng-submit="save()">
+
+                                            <div layout layout-sm="column">
+                                                <md-input-container flex>
+                                                    <label>Nome</label>
+                                                    <input name="name" ng-model="voucherProduct.name" required>
+                                                    <div ng-messages="editForm.name.$error" multiple ng-if='editForm.name.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <md-button type="submit" class="md-raised btn-w-md md-primary" ng-hide="saving" ng-disabled="editForm.$invalid">Salvar</md-button>
+                                            <md-progress-circular ng-show="saving" md-diameter="25px"></md-progress-circular>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card>
+            </article>
+        </div>
+    </div>
+</div>

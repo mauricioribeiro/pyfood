@@ -1,0 +1,149 @@
+<div class="page page-points-of-sale">
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header"><md-icon>swap_vert</md-icon> Lançamento de Antecipação</h2>
+        </div>
+        <div class="col-md-12">
+            <article>
+                <md-card class="no-margin-h">
+                    <md-toolbar class="md-table-toolbar md-default">
+                        <div class="md-toolbar-tools">
+                            <span>Edição</span>
+                        </div>
+                    </md-toolbar>
+                    <div class="panel-body padding-xl">
+                        <div class="row">
+                            <div class=" col-lg-8 col-lg-offset-2">
+                                <div layout="column" ng-cloak class="md-inline-form">
+                                    <div layout-padding>
+                                        <form name="editForm" ng-submit="save()">
+
+                                            <div layout layout-sm="column">
+                                                <md-input-container flex>
+                                                    <label>Tipo</label>
+                                                    <md-select name="type" ng-model="anticipationEntry.type" aria-label="select" required>
+                                                        <md-option ng-repeat="type in types" ng-value="type.value">{{type.name}}</md-option>
+                                                    </md-select>
+                                                    <div ng-messages="editForm.type.$error" multiple ng-if='editForm.type.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div layout layout-sm="column">
+                                                <md-input-container  ng-if="!anticipationEntry.id && !anticipationEntry.source_id && !anticipationEntry.source_type" flex>
+                                                    <label>Fonte</label>
+                                                    <md-select name="source" ng-model="anticipationEntry.source" aria-label="select" required>
+                                                        <md-optgroup label="Operadoras" ng-if="!isVoucher()">
+                                                            <md-option ng-repeat="source in sources | filter:{type: 'App\\Operator'}" ng-value="source">{{source.name}}</md-option>
+                                                        </md-optgroup>
+                                                        <md-optgroup label="Bancos" ng-if="!isVoucher()">
+                                                            <md-option ng-repeat="source in sources | filter:{type: 'App\\Bank'}" ng-value="source">{{source.name}}</md-option>
+                                                        </md-optgroup>
+                                                        <md-optgroup label="Bandeiras" ng-if="isVoucher()">
+                                                            <md-option ng-repeat="source in sources | filter:{type: 'App\\Flag'}" ng-value="source">{{source.name}}</md-option>
+                                                        </md-optgroup>
+                                                    </md-select>
+                                                    <div ng-messages="editForm.source.$error" multiple ng-if='editForm.source.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container ng-if="anticipationEntry.id && anticipationEntry.source_id && anticipationEntry.source_type" flex>
+                                                    <label>Fonte</label>
+                                                    <md-select name="source" ng-model="anticipationEntry.source" ng-model-options="{trackBy: '$value.id'}" aria-label="select" disabled>
+                                                        <md-optgroup label="Operadoras" ng-if="anticipationEntry.source_type === 'App\\Operator'">
+                                                            <md-option ng-repeat="source in sources | filter:{type: 'App\\Operator'}" ng-value="source">{{source.name}}</md-option>
+                                                        </md-optgroup>
+                                                        <md-optgroup label="Bancos" ng-if="anticipationEntry.source_type === 'App\\Bank'">
+                                                            <md-option ng-repeat="source in sources | filter:{type: 'App\\Bank'}" ng-value="source">{{source.name}}</md-option>
+                                                        </md-optgroup>
+                                                        <md-optgroup label="Bandeiras" ng-if="anticipationEntry.source_type === 'App\\Flag'">
+                                                            <md-option ng-repeat="source in sources | filter:{type: 'App\\Flag'}" ng-value="source">{{source.name}}</md-option>
+                                                        </md-optgroup>
+                                                    </md-select>
+                                                    <div ng-messages="editForm.source.$error" multiple ng-if='editForm.source.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex>
+                                                    <label>Data</label>
+                                                    <md-datepicker name="date" ng-model="anticipationEntry.date" ng-disabled="anticipationEntry.id" md-open-on-focus required></md-datepicker>
+                                                    <div ng-messages="editForm.date.$error" multiple ng-if='editForm.date.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div layout layout-sm="column">
+                                                <md-input-container flex>
+                                                    <label>Valor Bruto</label>
+                                                    <input name="grossValue" ng-model="anticipationEntry.gross_value" ui-money-mask required>
+                                                    <div ng-messages="editForm.grossValue.$error" multiple ng-if='editForm.grossValue.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                        <div ng-message="pattern">O Valor Bruto deve ser entrado em números e ponto como separador decimal.</div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex>
+                                                    <label>Valor Líquido</label>
+                                                    <input name="netValue" ng-model="anticipationEntry.net_value" ui-money-mask required>
+                                                    <div ng-messages="editForm.netValue.$error" multiple ng-if='editForm.netValue.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                        <div ng-message="pattern">O Valor Líquido deve ser entrado em números e ponto como separador decimal.</div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex>
+                                                    <label>Valor da Taxa</label>
+                                                    <input name="taxValue" ng-model="anticipationEntry.tax_value" ui-money-mask required>
+                                                    <div ng-messages="editForm.taxValue.$error" multiple ng-if='editForm.taxValue.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                        <div ng-message="pattern">O Valor da Taxa deve ser entrado em números e ponto como separador decimal.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div ng-if="isVoucher()" layout layout-sm="column">
+                                                <md-input-container flex>
+                                                    <label>Início do Período</label>
+                                                    <md-datepicker name="voucherPeriodStart" ng-model="anticipationEntry.voucher_period_start" ng-disabled="anticipationEntry.id" md-open-on-focus required></md-datepicker>
+                                                    <div ng-messages="editForm.voucherPeriodStart.$error" multiple ng-if='editForm.voucherPeriodStart.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+
+                                                <md-input-container flex>
+                                                    <label>Término do Período</label>
+                                                    <md-datepicker name="voucherPeriodEnd" ng-model="anticipationEntry.voucher_period_end" ng-disabled="anticipationEntry.id" md-open-on-focus required></md-datepicker>
+                                                    <div ng-messages="editForm.voucherPeriodEnd.$error" multiple ng-if='editForm.voucherPeriodEnd.$dirty'>
+                                                        <div ng-message="required">Este campo é obrigatório.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div ng-if="isVoucher()" layout layout-sm="column">
+                                                <md-input-container flex>
+                                                    <label>Protocolo do Voucher</label>
+                                                    <input name="voucherProtocol" ng-model="anticipationEntry.voucher_protocol" ng-pattern="/^[0-9\-\.]+$/">
+                                                    <div ng-messages="editForm.voucher_protocol.$error" multiple ng-if='editForm.voucher_protocol.$dirty'>
+                                                        <div ng-message="pattern">O Protocolo do Voucher deve ser entrado em traços, pontos e(ou) letras. Não são permitidos caracteres especiais.</div>
+                                                    </div>
+                                                </md-input-container>
+                                            </div>
+
+                                            <md-button type="submit" class="md-raised btn-w-md md-primary" ng-hide="saving" ng-disabled="editForm.$invalid">Salvar</md-button>
+                                            <md-progress-circular ng-show="saving" md-diameter="25px"></md-progress-circular>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card>
+            </article>
+        </div>
+    </div>
+</div>

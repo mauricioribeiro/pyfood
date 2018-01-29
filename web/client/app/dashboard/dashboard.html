@@ -1,0 +1,173 @@
+<div class="page page-dashboard">
+
+    <div class="row">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header"><md-icon>trending_up</md-icon> Dashboard</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default panel-minimal">
+                <div class="divider divider-md"></div>
+                <div class="panel-heading">Vendas</div>
+                <div class="panel-body">
+                    <div data-echarts data-options="combo.options" style="height: 400px;"></div>
+                    <div class="divider divider-lg"></div>
+                    <div class="row">
+                        <div class="col-md-3 box-stats">
+                            <span class="box-desc">Crédito</span>
+                            <p class="box-num">4,268</p>
+                            <div data-echarts data-options="smline1.options" class="sm-charts" style="height: 50px; width:100px;"></div>
+                        </div>
+                        <div class="col-md-3 box-stats">
+                            <span class="box-desc">Débito</span>
+                            <p class="box-num">3,239</p>
+                            <div data-echarts data-options="smline2.options" class="sm-charts" style="height: 50px; width:100px;"></div>
+                        </div>
+                        <div class="col-md-3 box-stats">
+                            <span class="box-desc">Parcelado</span>
+                            <p class="box-num">2,922</p>
+                            <div data-echarts data-options="smline3.options" class="sm-charts" style="height: 50px; width:100px;"></div>
+                        </div>
+                        <div class="col-md-3 box-stats no-border">
+                            <span class="box-desc">Voucher</span>
+                            <p class="box-num">1,093</p>
+                            <div data-echarts data-options="smline4.options" class="sm-charts" style="height: 50px; width:100px;"></div>
+                        </div>
+                    </div>
+                    <div class="divider divider-lg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body padding-lg">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="panel">
+                                <div class="panel-heading text-center">Estatísticas</div>
+                                <div class="divider divider-lg"></div>
+                                <div class="panel-body">
+                                    <div class="row text-center metrics">
+                                        <div class="col-xs-6 col-md-3">
+                                            <span class="metric">560</span>
+                                            <span class="metric-info">Empresas</span>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <span class="metric">4823</span>
+                                            <span class="metric-info">Usuários</span>
+                                        </div>                                
+                                        <div class="col-xs-6 col-md-3">
+                                            <span class="metric">15069</span>
+                                            <span class="metric-info">Vendas</span>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <span class="metric">624</span>
+                                            <span class="metric-info">Antecipações</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div data-echarts data-options="pie.options" style="height: 180px;"></div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="col-lg-4">
+                            <section class="panel">
+                                <div class="panel-heading">Top 4 Máquinas</div>
+                                <div class="divider divider-md"></div>
+                                <div class="panel-body">
+                                    <div class="divider divider-md"></div>
+                                    <div class="progressbar-container">
+                                        <md-progress-linear md-mode="determinate" value="77" class="md-progressbar brand-success"></md-progress-linear>
+                                        <p class="desc">Cielo <span class="pull-right color-success">77%</span></p>
+                                    </div>
+                                    <div class="progressbar-container">
+                                        <md-progress-linear md-mode="determinate" value="68" class="md-progressbar brand-info"></md-progress-linear>
+                                        <p class="desc">Rede <span class="pull-right color-info">68%</span></p>
+                                    </div>
+                                    <div class="progressbar-container">
+                                        <md-progress-linear md-mode="determinate" value="55" class="md-progressbar brand-danger"></md-progress-linear>
+                                        <p class="desc">Sodexo <span class="pull-right color-danger">55%</span></p>
+                                    </div>
+                                    <div class="progressbar-container">
+                                        <md-progress-linear md-mode="determinate" value="48" class="md-progressbar brand-warning"></md-progress-linear>
+                                        <p class="desc">Alelo <span class="pull-right color-warning">48%</span></p>
+                                    </div>
+                                    <div class="progressbar-container">
+                                        <md-progress-linear md-mode="determinate" value="34" class="md-progressbar brand-primary"></md-progress-linear>
+                                        <p class="desc">Good Card <span class="pull-right color-primary">34%</span></p>
+                                    </div>                                      
+                                </div>
+                            </section>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+       <!-- Stats -->
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel panel-box">
+                <div class="panel-top">
+                    <i class="material-icons color-success">airplanemode_active</i>
+                </div>
+                <div class="panel-info">
+                    <span>Crescimento</span>
+                </div>
+                <div class="panel-bottom bg-light">
+                    <span>36 <span class="size-h4">%</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel panel-box">
+                <div class="panel-top">
+                    <i class="material-icons color-info">supervisor_account</i>
+                </div>
+                <div class="panel-info">
+                    <span>Novos Usuários</span>
+                </div>
+                <div class="panel-bottom bg-light">
+                    <span>22 <span class="size-h4">%</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel panel-box">
+                <div class="panel-top">
+                    <i class="material-icons color-warning">attach_money</i>
+                </div>
+                <div class="panel-info">
+                    <span>Ganho Real</span>
+                </div>
+                <div class="panel-bottom bg-light">
+                    <span>37 <span class="size-h4">R$</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel panel-box">
+                <div class="panel-top">
+                    <i class="material-icons color-danger">shopping_cart</i>
+                </div>
+                <div class="panel-info">
+                    <span>Ganho Vendas</span>
+                </div>
+                <div class="panel-bottom bg-light">
+                    <span>21 <span class="size-h4">k</span></span>
+                </div>
+            </div>
+        </div>
+        <!-- end stats -->          
+    </div>
+
+</div>
+    

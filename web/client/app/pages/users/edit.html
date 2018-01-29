@@ -1,0 +1,288 @@
+<div class="page page-users">
+    <div class="row ui-section">
+        <div class="col-lg-8 clearfix">
+            <h2 class="section-header"><md-icon>supervisor_account</md-icon> Usuários</h2>
+        </div>
+        <div class="col-md-12">
+            <article>
+                <md-card class="no-margin-h">
+                    <md-toolbar class="md-table-toolbar md-default">
+                        <div class="md-toolbar-tools">
+                            <span>Edição</span>
+                        </div>
+                    </md-toolbar>
+                    <div class="panel-body padding-xl">
+                        <div class="row">
+                            <div class=" col-lg-8 col-lg-offset-2">
+                                <div layout="column" ng-cloak class="md-inline-form">
+                                    <div layout-padding>
+                                        <form name="editForm" ng-submit="save()">
+
+                                            <div ng-if="user.photo_url" layout-sm="column">
+                                                <md-input-container layout="row" layout-align="center center" flex>
+                                                    <img ng-src="{{ user.photo_url }}" class="img-circle img250_250">
+                                                </md-input-container>
+                                            </div>
+                                            <div layout layout-sm="column">
+                                                <md-input-container layout="row" layout-align="center center" flex>
+                                                    <md-button ng-hide="user.photo_url" id="cloudinary-uploader" class="md-raised">Enviar imagem de perfil <md-icon>file_upload</md-icon></md-button>
+                                                    <md-button ng-show="user.photo_url" ng-click="removeImage()" class="md-raised md-warn">Remover imagem <md-icon>close</md-icon></md-button>
+                                                </md-input-container>
+                                            </div>
+
+                                            <div layout="column" class="md-padding">
+                                                <div>
+                                                    <h4><md-icon>account_box</md-icon> Dados Básicos</h4>
+                                                </div>
+
+                                                <div layout layout-sm="column">
+                                                    <md-input-container flex>
+                                                        <label>Tipo</label>
+                                                        <md-select ng-model="user.owner_type" ng-disabled="user.owner_type && user.owner_id" aria-label="select" required>
+                                                            <md-option ng-repeat="type in types" value="{{type.value}}">{{type.name}}</md-option>
+                                                        </md-select>
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout layout-sm="column">
+                                                    <md-input-container flex>
+                                                        <label>{{ (isCompany()) ? 'Razão Social' : 'Nome' }}</label>
+                                                        <input name="name" ng-model="user.owner.name" required>
+                                                        <div ng-messages="editForm.owner.name.$error" multiple ng-if='editForm.owner.name.$dirty'>
+                                                            <div ng-message="required">Este campo é obrigatório.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout layout-sm="column">
+                                                    <md-input-container flex>
+                                                        <label>Nome Fantasia</label>
+                                                        <input name="commercial_name" ng-model="user.owner.commercial_name">
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout layout-sm="column" ng-if="isCompany()">
+                                                    <md-input-container flex>
+                                                        <label>CNPJ</label>
+                                                        <input name="cnpj" ng-model="user.owner.cnpj" ng-pattern="/^[0-9\.\/\-]+$/" required>
+                                                        <div ng-messages="editForm.cnpj.$error" multiple ng-if='editForm.cnpj.$dirty'>
+                                                            <div ng-message="required">O CNPJ é obrigatório.</div>
+                                                            <div ng-message="pattern">CNPJ inválido. Ele deve conter somente números, pontos, barra e traço</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+
+                                                <div layout layout-sm="column" ng-if="isPerson()">
+                                                    <md-input-container flex>
+                                                        <label>CPF</label>
+                                                        <input name="cpf" ng-model="user.owner.cpf" ng-pattern="/^[0-9\.\/\-]+$/" required>
+                                                        <div ng-messages="editForm.cpf.$error" multiple ng-if='editForm.cpf.$dirty'>
+                                                            <div ng-message="required">O CPF é obrigatório.</div>
+                                                            <div ng-message="pattern">CPF é inválido. Ele deve conter somente números, pontos, barra e traço</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout layout-sm="column">
+                                                    <md-input-container flex>
+                                                        <label>Usuário</label>
+                                                        <input required
+                                                               type="text"
+                                                               name="username"
+                                                               ng-model="user.username"
+                                                               ng-pattern="/^[\w\-\.]+$/"/>
+                                                        <div ng-messages="editForm.username.$error" multiple ng-if='editForm.username.$dirty'>
+                                                            <div ng-message="required">O Usuário é obrigatório.</div>
+                                                            <div ng-message="pattern">O Usuário é inválido. Deve conter apenas letras, traços e(ou) pontos.</div>
+                                                        </div>
+                                                    </md-input-container>
+
+                                                    <md-input-container flex>
+                                                        <label>Email</label>
+                                                        <input required
+                                                               type="email"
+                                                               name="email"
+                                                               ng-model="user.email"
+                                                               ng-pattern="/^.+@.+\..+$/" />
+                                                        <div ng-messages="editForm.email.$error" multiple ng-if='editForm.email.$dirty'>
+                                                            <div ng-message="required">Este campo é obrigatório.</div>
+                                                            <div ng-message="pattern">Este email é inválido.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout layout-sm="column">
+                                                    <md-input-container flex>
+                                                        <label>Senha</label>
+                                                        <input name="password"
+                                                               type="password"
+                                                               ng-keyup="matchPasswords()"
+                                                               ng-model="user.password">
+                                                        <div ng-messages="editForm.password.$error" multiple ng-if='editForm.password.$dirty'>
+                                                            <div ng-message="noMatch">As senhas não são iguais.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                    <md-input-container flex>
+                                                        <label>Confirme a senha</label>
+                                                        <input name="confirm_password"
+                                                               type="password"
+                                                               ng-keyup="matchPasswords()"
+                                                               ng-model="user.confirm_password">
+                                                        <div ng-messages="editForm.password.$error" multiple ng-if='editForm.password.$dirty'>
+                                                            <div ng-message="noMatch">As senhas não são iguais.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                                <div layout layout-sm="column">
+                                                    <md-input-container flex>
+                                                        <label>Perfil</label>
+                                                        <md-select name="profile" ng-model="user.profiles_id" aria-label="select" required>
+                                                            <md-option ng-repeat="profile in profiles track by profile.id" ng-value="profile.id">{{profile.name}}</md-option>
+                                                        </md-select>
+                                                        <div ng-messages="editForm.profile.$error" multiple ng-if='editForm.profile.$dirty'>
+                                                            <div ng-message="required">Este campo é obrigatório.</div>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+
+                                                <div layout="row">
+                                                    <h4 flex><md-icon>phone</md-icon> Telefones</h4>
+                                                    <md-button class="md-fab md-fab-sm md-raised md-primary" ng-click="addPhone()">
+                                                        <md-icon>add</md-icon>
+                                                    </md-button>
+                                                </div>
+
+                                                <div ng-if="!user.phones.length" class="well well-sm">
+                                                    Ainda não há telefones para este usuário. Clique no <strong><md-icon>add</md-icon></strong> no topo para criar.
+                                                </div>
+
+                                                <div layout="column">
+                                                    <div ng-repeat="phone in user.phones" class="phone" layout="row" layout-align="space-between center">
+                                                        <md-input-container flex>
+                                                            <label>Telefone {{$index+1}}</label>
+                                                            <input required
+                                                                   type="text"
+                                                                   name="phone{{$index}}"
+                                                                   ng-model="phone.number"
+                                                                   ng-pattern="/^[\s\-\(\)0-9]+$/"/>
+                                                            <div ng-messages="editForm['phone' + $index].$error" multiple ng-if="editForm['phone' + $index].$dirty">
+                                                                <div ng-message="required">O número é obrigatório.</div>
+                                                                <div ng-message="pattern">Este número é inválido.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <md-button class="md-warn" ng-click="removePhone($index)"><md-icon>delete</md-icon></md-button>
+                                                    </div>
+                                                </div>
+
+                                                <div layout="row">
+                                                    <h4 flex><md-icon>account_balance</md-icon> Contas Bancárias</h4>
+                                                    <md-button class="md-fab md-fab-sm md-raised md-primary" ng-click="addBankAccount()">
+                                                        <md-icon>add</md-icon>
+                                                    </md-button>
+                                                </div>
+
+                                                <div ng-if="!user.bank_accounts.length" class="well well-sm">
+                                                    Ainda não há contas bancárias para este usuário. Clique no <strong><md-icon>add</md-icon></strong> no topo para criar.
+                                                </div>
+
+                                                <div layout="column">
+                                                    <div ng-repeat="bank_account in user.bank_accounts" class="bank-account" layout="row" layout-sm="column" layout-align="space-between center" layout-align-sm="center strech">
+                                                        <md-input-container flex>
+                                                            <label>Banco</label>
+                                                            <md-select name="bank_account_bank{{$index}}" ng-model="bank_account.bank_id" aria-label="select" required>
+                                                                <md-option ng-repeat="bank in banks track by bank.id" ng-value="bank.id">{{bank.name}}</md-option>
+                                                            </md-select>
+                                                            <div ng-messages="editForm['bank_account_bank' + $index].$error" multiple ng-if="editForm['bank_account_bank' + $index].$dirty">
+                                                                <div ng-message="required">O banco é obrigatório.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <md-input-container flex>
+                                                            <label>Conta</label>
+                                                            <input required
+                                                                   type="text"
+                                                                   name="bank_account_number{{$index}}"
+                                                                   ng-model="bank_account.number"
+                                                                   ng-pattern="/^[\-\.0-9]+$/"/>
+                                                            <div ng-messages="editForm['bank_account_number' + $index].$error" multiple ng-if="editForm['bank_account_number' + $index].$dirty">
+                                                                <div ng-message="required">A conta é obrigatória.</div>
+                                                                <div ng-message="pattern">Este conta é inválida.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <md-input-container flex>
+                                                            <label>Agência</label>
+                                                            <input required
+                                                                   type="text"
+                                                                   name="bank_account_agency{{$index}}"
+                                                                   ng-model="bank_account.agency"
+                                                                   ng-pattern="/^[\-\.0-9]+$/"/>
+                                                            <div ng-messages="editForm['bank_account_agency' + $index].$error" multiple ng-if="editForm['bank_account_agency' + $index].$dirty">
+                                                                <div ng-message="required">A agência é obrigatória.</div>
+                                                                <div ng-message="pattern">Este agência é inválida.</div>
+                                                            </div>
+                                                        </md-input-container>
+                                                        <md-button class="md-warn" ng-click="removeBankAccount($index)"><md-icon>delete</md-icon></md-button>
+                                                    </div>
+                                                </div>
+
+                                                <div layout="row" ng-if="isCompany()">
+                                                    <h4 flex><md-icon>supervisor_account</md-icon> Proprietários</h4>
+                                                    <md-button class="md-fab md-fab-sm md-raised md-primary" ng-click="addProprietary()">
+                                                        <md-icon>add</md-icon>
+                                                    </md-button>
+                                                </div>
+
+                                                <div ng-if="isCompany() && !user.owner.proprietaries.length" class="well well-sm">
+                                                    Ainda não há proprietários para este usuário. Clique no <strong><md-icon>add</md-icon></strong> no topo para criar.
+                                                </div>
+
+                                                <div layout="column" ng-if="isCompany()">
+                                                    <div ng-repeat="proprietary in user.owner.proprietaries" class="proprietary" layout="row" layout-sm="column" layout-align="space-between start" layout-align-sm="center strech">
+                                                        <div layout="column" flex>
+                                                            <md-input-container flex>
+                                                                <label>Nome</label>
+                                                                <input name="proprietary_name{{$index}}" ng-model="proprietary.name" required>
+                                                                <div ng-messages="editForm['proprietary_name' + $index].$error" multiple ng-if="editForm['proprietary_name' + $index].$dirty">
+                                                                    <div ng-message="required">Este campo é obrigatório.</div>
+                                                                </div>
+                                                            </md-input-container>
+                                                            <div layout="row">
+                                                                <md-input-container flex>
+                                                                    <label>RG</label>
+                                                                    <input name="proprietary_rg{{$index}}" ng-model="proprietary.rg" ng-pattern="/^[0-9\.\/\-]+$/">
+                                                                    <div ng-messages="editForm['proprietary_rg' + $index].$error" multiple ng-if="editForm['proprietary_rg' + $index].$dirty">
+                                                                        <div ng-message="required">O RG é obrigatório.</div>
+                                                                        <div ng-message="pattern">RG é inválido. Ele deve conter somente números, pontos, barra e traço</div>
+                                                                    </div>
+                                                                </md-input-container>
+                                                                <md-input-container flex>
+                                                                    <label>CPF</label>
+                                                                    <input name="proprietary_cpf{{$index}}" ng-model="proprietary.cpf" ng-pattern="/^[0-9\.\/\-]+$/">
+                                                                    <div ng-messages="editForm['proprietary_cpf' + $index].$error" multiple ng-if="editForm['proprietary_cpf' + $index].$dirty">
+                                                                        <div ng-message="required">O CPF é obrigatório.</div>
+                                                                        <div ng-message="pattern">CPF é inválido. Ele deve conter somente números, pontos, barra e traço</div>
+                                                                    </div>
+                                                                </md-input-container>
+                                                                <md-input-container flex>
+                                                                    <label>Nascimento</label>
+                                                                    <md-datepicker name="proprietary_birth_date" ng-model="proprietary.birth_date" md-open-on-focus></md-datepicker>
+                                                                    <div ng-messages="editForm['proprietary_birth_date' + $index].$error" multiple ng-if="editForm['proprietary_birth_date' + $index].$dirty">
+                                                                        <div ng-message="required">A data de nascimento é obrigatória.</div>
+                                                                    </div>
+                                                                </md-input-container>
+                                                            </div>
+                                                        </div>
+                                                        <md-button class="md-warn" ng-click="removeProprietary($index)"><md-icon>delete</md-icon></md-button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <md-button type="submit" class="md-raised btn-w-md md-primary" ng-hide="saving" ng-disabled="editForm.$invalid">Salvar</md-button>
+                                            <md-progress-circular ng-show="saving" md-diameter="25px"></md-progress-circular>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card>
+            </article>
+        </div>
+    </div>
+</div>
