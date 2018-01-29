@@ -10,14 +10,7 @@
         this.showErrorToast = showErrorToast;
         this.showDialog = showDialog;
         this.showDeleteDialog = showDeleteDialog;
-        this.getCloudinaryConfig = getCloudinaryConfig;
-        this.getAllowedPaymentMethods = getAllowedPaymentMethods;
-        this.getOwnerTypes = getOwnerTypes;
-        this.getPointOfSaleTypes = getPointOfSaleTypes;
-        this.getAnticipationEntryTypes = getAnticipationEntryTypes;
-        this.getCutoffWeekDays = getCutoffWeekDays;
-        this.getDays = getDays;
-        this.getMonths = getMonths;
+        this.getNotificationModel = getNotificationModel;
 
         function showSuccessToast(message){
             $mdToast.show($mdToast.simple()
@@ -55,82 +48,46 @@
             showDialog("Deletar item", "Deseja deletar permanentemente este item?", "Deletar item", "Cancelar", okCallback, cancelCallback);
         }
 
-        function getCloudinaryConfig(){
-            return {
-                cloud_name: 'mauricioribeiro',
-                upload_preset: 'posvale'
+        function getNotificationModel(data){
+
+            /*
+            ORDER_LIST_ITEMS = 'order.list_items'
+            ORDER_FINISH = 'order.finish'
+            ORDER_CONFIRM = 'order.confirm'
+            */
+
+            var notification = {
+                "text": null,
+                "icon": null,
+                "client": data.client,
+                "order": data.order,
             }
-        }
 
-        function getAllowedPaymentMethods(){
-            return {
-                DEBITO: "Débito",
-                CREDITO: "Crédito",
-                VOUCHER: "Voucher",
-                PARCELADO: "Parcelado"
-            };
-        }
+            switch(data.action){
+                case "order.create":
+                    notification.icon = "shopping_cart";
+                    notification.text = "iniciou um pedido";
+                    break;
 
-        function getOwnerTypes(){
-            return [
-                {name: "Pessoa Física", value: "App\\Person"},
-                {name: "Pessoa Jurídica", value: "App\\Company"}
-            ];
-        }
+                case "order.add_item":
+                    notification.icon = "exposure_plus_1";
+                    notification.text = "adicionou um item no seu pedido";
+                    break;
 
-        function getPointOfSaleTypes(){
-            return [
-                {name: "Comodato", value: "LENDING"},
-                {name: "Própria", value: "OWN"}
-            ];
-        }
+                case "order.remove_item":
+                    notification.icon = "exposure_neg_1";
+                    notification.text = "removeu um item no seu pedido";
+                    break;
 
-        function getCutoffWeekDays(){
-            return [
-                {name: "Nenhum", value: null},
-                {name: "Domingo", value: '0'},
-                {name: "Segunda-Feira", value: '1'},
-                {name: "Terça-Feira", value: '2'},
-                {name: "Quarta-Feira", value: '3'},
-                {name: "Quinta-Feira", value: '4'},
-                {name: "Sexta-Feira", value: '5'},
-                {name: "Sábado", value: '6'}
-            ];
-        }
+                case "order.finish":
+                    notification.icon = "archive";
+                    notification.text = "finalizou seu pedido";
+                    break;
 
-        function getMonths(){
-            return [
-                {name: "Janeiro", value: 1},
-                {name: "Fevereiro", value: 2},
-                {name: "Março", value: 3},
-                {name: "Abril", value: 4},
-                {name: "Maio", value: 5},
-                {name: "Junho", value: 6},
-                {name: "Julho", value: 7},
-                {name: "Agosto", value: 8},
-                {name: "Setembro", value: 9},
-                {name: "Outubro", value: 10},
-                {name: "Novembro", value: 11},
-                {name: "Dezembro", value: 12}
-            ];
-        }
-
-        function getDays(month, year) {
-            year = (typeof year === 'undefined') ? new Date().getYear() : year;
-            var total = new Date(year, month, 0).getDate();
-            var days = [];
-            for(var i = 1; i <= total; i++) days.push(i);
-            return days;
-        }
-
-        function getAnticipationEntryTypes(){
-            var methods = getAllowedPaymentMethods();
-            return [
-                {name: methods.CREDITO, value: "CREDITO"},
-                {name: methods.VOUCHER, value: "VOUCHER"}
-            ];
+            }
+            return notification;
         }
 
     }
 
-})(); 
+})();

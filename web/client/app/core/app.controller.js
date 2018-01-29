@@ -2,16 +2,20 @@
     'use strict';
 
     angular.module('app')
-        .controller('AppCtrl', ['$scope', '$rootScope', '$state', '$document', 'appConfig', 'AppUtilsService', 'AuthService', 'UserService', AppCtrl]); // overall control
+        .controller('AppCtrl', ['$scope', '$rootScope', '$state', '$document', 'appConfig', 'AppUtilsService', 'AuthService', 'UserService', 'NotificationService', AppCtrl]); // overall control
 
-    function AppCtrl($scope, $rootScope, $state, $document, appConfig, AppUtilsService, AuthService, UserService) {
+    function AppCtrl($scope, $rootScope, $state, $document, appConfig, AppUtilsService, AuthService, UserService, NotificationService) {
 
         $scope.pageTransitionOpts = appConfig.pageTransitionOpts;
         $scope.main = appConfig.main;
         $scope.color = appConfig.color;
         $scope.myUser = null;
+        $scope.notifications = [];
 
         UserService.getMyUser(getMyUserSuccess, getMyUserError);
+
+        NotificationService.setReceiveCallback(receiveCallback);
+        NotificationService.connect();
 
         $scope.logout = function(){
             AuthService.logout(function(){
@@ -56,6 +60,12 @@
         $rootScope.$on("$stateChangeSuccess", function (event, currentRoute, previousRoute) {
             $document.scrollTo(0, 0);
         });
+
+        function receiveCallback(notification){
+            notification = AppUtilsService.getNotificationModel(notification);
+            $scope.notifications.push(notification);
+            $scope.$apply();
+        }
 
         function getMyUserSuccess(response){
             $scope.myUser = response.data;

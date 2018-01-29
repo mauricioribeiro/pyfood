@@ -30,32 +30,21 @@
 
         <ul class="nav-right pull-right list-unstyled">
             <li>
-                <md-menu md-position-mode="left bottom">
+                <md-button class="header-btn" aria-label="menu" ng-disabled="true" ng-if="!notifications.length">
+                    <i class="material-icons">notifications</i>
+                </md-button>
+                <md-menu md-position-mode="left bottom" ng-if="notifications.length">
                     <md-button class="header-btn" aria-label="menu" ng-click="$mdMenu.open($event)">
                         <i class="material-icons">notifications</i>
-                        <span class="badge">3</span>
+                        <span class="badge">{{ notifications.length }}</span>
                     </md-button>
                     <md-menu-content class="top-header-dropdown" width="4">
                         <md-list class="md-dense">
-                            <md-list-item class="md-2-line" ng-click="null">
-                                <md-icon class="material-icons">exposure_plus_1</md-icon>
+                            <md-list-item class="md-2-line" ng-click="null" ng-repeat="notification in notifications">
+                                <md-icon class="material-icons">{{ notification.icon }}</md-icon>
                                 <div class="md-list-item-text">
-                                    <h3><b>Mauricio Ribeiro</b> adicionou um item</h3>
-                                    <p><a href="#">Pedido #1647</a></p>
-                                </div>
-                            </md-list-item>
-                            <md-list-item class="md-2-line" ng-click="null">
-                                <md-icon class="material-icons">shopping_cart</md-icon>
-                                <div class="md-list-item-text">
-                                    <h3><b>Lázaro</b> iniciou um pedido</h3>
-                                    <p><a href="#">Pedido #1648</a></p>
-                                </div>
-                            </md-list-item>
-                            <md-list-item class="md-2-line" ng-click="null">
-                                <md-icon class="material-icons">archive</md-icon>
-                                <div class="md-list-item-text">
-                                    <h3><b>Larissa</b> finalizou seu pedido</h3>
-                                    <p><a href="#">Pedido #1640</a></p>
+                                    <h3><b>{{ notification.client.name }}</b> {{ notification.text }}</h3>
+                                    <p><a href="#">Pedido #{{ notification.order.id }}</a></p>
                                 </div>
                             </md-list-item>
                         </md-list>

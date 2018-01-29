@@ -6,29 +6,37 @@
 
     /** @ngInject */
     function NotificationService($location, $filter) {
+        var socket = null;
+        var receiveCallback = null;
 
-        var socket = new WebSocket('ws://localhost:8000/notifications/');
-
-        socket.onopen = function open() {
-          console.log('WebSockets connection created.');
+        this.setReceiveCallback = function(callback){
+            receiveCallback = callback;
         };
 
-        socket.onmessage = function message(event) {
-            var data = JSON.parse(event.data);
-            console.log(data);
-        };
+        this.connect = function(){
+            socket = new WebSocket('ws://localhost:8000/notifications/');
 
-        if (socket.readyState == WebSocket.OPEN) {
-          socket.onopen();
-        }
+            socket.onopen = function open() {
+              console.log('WebSockets connection created.');
+            };
 
-        this.getNotificationModel = function(){
-            return {
-                text: "Isso é uma notificação",
-                order: null,
-                client: null
+            socket.onerror = function open() {
+              console.log('WebSockets connection got an error.');
+            };
+
+            socket.onmessage = function message(event) {
+                var notification = JSON.parse(event.data);
+                if(typeof receiveCallback == 'function'){
+                    receiveCallback(notification);
+                } else {
+                    console.log(notification);
+                }
+            };
+
+            if (socket.readyState == WebSocket.OPEN) {
+              socket.onopen();
             }
-        };
+        }
 
     }
 
