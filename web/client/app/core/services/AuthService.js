@@ -30,13 +30,13 @@
 
         this.authorize = function(){
 
+            return true; 
+
             return UserService.getMyUser().$promise.then(getMyAccountThen);
 
             function getMyAccountThen(response){
                 if(!response || !response.data || !response.data.id){
                     //$state.go('login', {accessdenied : true});
-                } else {
-                    // TODO add check permissions by state
                 }
             }
         };
@@ -49,4 +49,4 @@
         }
     }
 
-})(); 
+})();
