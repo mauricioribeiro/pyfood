@@ -13,6 +13,8 @@ class Message(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True, related_name='messages', verbose_name='Pedido')
     created_on = models.DateTimeField(auto_now_add=True, verbose_name='Data-Hora de Criação')
     updated_on = models.DateTimeField(auto_now=True, verbose_name='Data-Hora de Atualização')
+    notify = models.BooleanField(default=False, verbose_name='Notifica')
+    visualized = models.BooleanField(default=False, verbose_name='Visualizada')
 
     def __str__(self): return self.content
 

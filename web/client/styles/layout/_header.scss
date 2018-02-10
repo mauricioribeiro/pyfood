@@ -18,7 +18,7 @@
     }
 }
 
-// 
+//
 .header-container {
     // height:( $header_height * 2);
     // @media (min-width:$screen-sm) {
@@ -331,7 +331,7 @@
 
 }
 
-// 
+//
 .top-header-dropdown {
     //
     md-list.md-dense md-list-item .md-list-item-inner>md-icon:first-child:not(.md-avatar-icon) {
@@ -381,7 +381,7 @@
 }
 
 
-// 
+//
 .nav-left,
 .nav-right {
     // only apply to first level, not dropdown
@@ -409,7 +409,7 @@
 }
 
 
-// 
+//
 .skin-check {
     position: relative;
     display: block;
@@ -665,3 +665,10 @@
     }
 }
 
+
+.notification-button {
+    .badge {
+        background-color: #d50000 !important;
+        color: #fff !important;
+    }
+}
