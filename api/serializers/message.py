@@ -16,4 +16,6 @@ class MessageSerializer(ModelSerializer):
             'order',
             'created_on',
             'updated_on',
+            'notify',
+            'visualized',
         )

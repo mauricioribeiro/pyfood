@@ -38,6 +38,9 @@ ORDER_LIST_ITEMS = 'order.list_items'
 ORDER_FINISH = 'order.finish'
 ORDER_CONFIRM = 'order.confirm'
 
+# Notification actions
+NOTIFICATION_ACTIONS = [ORDER_CREATE, ORDER_ADD_ITEM, ORDER_REMOVE_ITEM, ORDER_FINISH]
+
 # Webhook contexts
 GENERIC_CONTEXT = 'generic'
 FINISH_CONTEXT = 'finalizar'

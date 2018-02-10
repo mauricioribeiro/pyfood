@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^clients/(?P<pk>[0-9]+)/$', views.ClientDetail.as_view(), name='api-client-detail'),
     url(r'^messages/$', views.MessageList.as_view(), name='api-message-list'),
     url(r'^messages/(?P<pk>[0-9]+)/$', views.MessageDetail.as_view(), name='api-message-detail'),
+    url(r'^messages/notifications/$', views.MessageNotificationList.as_view(), name='api-message-notification-list'),
 ]
