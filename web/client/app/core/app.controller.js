@@ -11,7 +11,7 @@
         $scope.color = appConfig.color;
         $scope.myUser = null;
         $scope.notifications = [];
-        $scope.notificationsSize = 5;
+        $scope.notificationsSize = 4;
 
         //UserService.getMyUser(getMyUserSuccess, getMyUserError);
         getMyUserSuccess({id: 1, name: "Py Food Bot"}); // TODO remove mock user
@@ -29,6 +29,9 @@
             }
             return false;
         };
+
+        $scope.visualize = function(notification){
+        }
 
         $scope.$watch('main', function(newVal, oldVal) {
             // if (newVal.menu !== oldVal.menu || newVal.layout !== oldVal.layout) {
@@ -62,10 +65,6 @@
 
         function receiveCallback(notification){
             $scope.notifications.pop(AppUtilsService.getNotificationModel(notification));
-
-            if($scope.notifications.length > $scope.notificationsSize)
-                $scope.notifications = $scope.notifications.slice(0, $scope.notificationsSize);
-
             $scope.$apply();
         }
 
@@ -80,8 +79,7 @@
         }
 
         function getNotificationsSuccess(data){
-            $scope.notifications = (data.length < 5) ? data : data.slice(0, 5);
-            $scope.notifications.map(function(n){ return AppUtilsService.getNotificationModel(n) });
+            $scope.notifications = data.map(function(n){ return AppUtilsService.getNotificationModel(n) });
 
             NotificationService.setReceiveCallback(receiveCallback);
             NotificationService.connect();

@@ -36,11 +36,11 @@
                 <md-menu md-position-mode="left bottom" ng-if="notifications.length">
                     <md-button class="header-btn notification-button" aria-label="menu" ng-click="$mdMenu.open($event)">
                         <i class="material-icons">notifications</i>
-                        <span class="badge">{{ notifications.length }}</span>
+                        <span class="badge">{{ notifications.length <= notificationsSize ? notifications.length : notificationsSize + '+' }}</span>
                     </md-button>
                     <md-menu-content class="top-header-dropdown" width="4">
                         <md-list class="md-dense">
-                            <md-list-item class="md-2-line" ng-click="null" ng-repeat="notification in notifications">
+                            <md-list-item class="md-2-line" ng-click="null" ng-repeat="notification in notifications" ng-if="$index < notificationsSize">
                                 <md-icon class="material-icons">{{ notification.icon }}</md-icon>
                                 <div class="md-list-item-text">
                                     <h3><b>{{ notification.client_name }}</b> {{ notification.text }}</h3>
