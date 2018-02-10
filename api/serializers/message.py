@@ -13,6 +13,7 @@ class MessageSerializer(ModelSerializer):
             'source',
             'session',
             'client',
+            'client_name',
             'order',
             'created_on',
             'updated_on',

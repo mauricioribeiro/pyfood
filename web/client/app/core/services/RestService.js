@@ -31,16 +31,15 @@
         };
 
         this.transformResponses = function(responseData){
-            responseData = angular.fromJson(responseData);
             return responseData.map(function(d){ return transformResponse(d); });
         };
 
         function transformRequest(requestData){
             if(requestData){
-                requestData.created_at = (requestData.created_at) ? $filter('date')(requestData.created_at, 'yyyy-MM-dd HH:mm:ss') : null;
-                requestData.updated_at = (requestData.updated_at) ? $filter('date')(requestData.updated_at, 'yyyy-MM-dd HH:mm:ss') : null;
+                requestData.created_on = (requestData.created_on) ? $filter('date')(requestData.created_on, 'yyyy-MM-dd HH:mm:ss') : null;
+                requestData.updated_on = (requestData.updated_on) ? $filter('date')(requestData.updated_on, 'yyyy-MM-dd HH:mm:ss') : null;
             }
-            return angular.toJson(requestData);
+            return requestData;
         }
 
         function transformResponse(responseData){

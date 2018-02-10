@@ -61,7 +61,7 @@
         });
 
         function receiveCallback(notification){
-            $scope.notifications.pop(notification);
+            $scope.notifications.pop(AppUtilsService.getNotificationModel(notification));
 
             if($scope.notifications.length > $scope.notificationsSize)
                 $scope.notifications = $scope.notifications.slice(0, $scope.notificationsSize);
@@ -71,7 +71,7 @@
 
         function getMyUserSuccess(response){
             $scope.myUser = response.data;
-            MessageService.notifications(getNotificationsSuccess);
+            MessageService.notifications().$promise.then(getNotificationsSuccess);
         }
 
         function getMyUserError(data){
@@ -81,6 +81,7 @@
 
         function getNotificationsSuccess(data){
             $scope.notifications = (data.length < 5) ? data : data.slice(0, 5);
+            $scope.notifications.map(function(n){ return AppUtilsService.getNotificationModel(n) });
 
             NotificationService.setReceiveCallback(receiveCallback);
             NotificationService.connect();

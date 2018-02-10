@@ -17,6 +17,9 @@ class Message(models.Model):
     visualized = models.BooleanField(default=False, verbose_name='Visualizada')
 
     def __str__(self): return self.content
+    
+    def client_name(self):
+        return self.client.name if self.client else None
 
     class Meta:
         verbose_name = 'Mensagem'

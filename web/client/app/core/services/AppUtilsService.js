@@ -56,12 +56,7 @@
             ORDER_CONFIRM = 'order.confirm'
             */
 
-            var notification = {
-                "text": null,
-                "icon": null,
-                "client": data.client,
-                "order": data.order,
-            }
+            var notification = data;
 
             switch(data.action){
                 case "order.create":

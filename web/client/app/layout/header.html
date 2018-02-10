@@ -43,8 +43,8 @@
                             <md-list-item class="md-2-line" ng-click="null" ng-repeat="notification in notifications">
                                 <md-icon class="material-icons">{{ notification.icon }}</md-icon>
                                 <div class="md-list-item-text">
-                                    <h3><b>{{ notification.client.name }}</b> {{ notification.text }}</h3>
-                                    <p><a href="#">Pedido #{{ notification.order.id }}</a></p>
+                                    <h3><b>{{ notification.client_name }}</b> {{ notification.text }}</h3>
+                                    <p><a href="#">Pedido #{{ notification.order }}</a></p>
                                 </div>
                             </md-list-item>
                         </md-list>

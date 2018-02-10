@@ -31,7 +31,8 @@
             'notifications': {
                 method: 'GET',
                 url: RestService.getURI() + 'messages/notifications/',
-                transformResponse: transformArrayResponse
+                transformResponse: transformArrayResponse,
+                isArray: true
             },
             'update': {
                 method: 'PUT',
