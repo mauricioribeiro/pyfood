@@ -33,7 +33,8 @@ class OrderService:
                 order = Order.objects.filter(client=client, status=OPENED).first() if client else None
 
                 message = MessageService.log(self.data, client, order)
-                ws_send(message)
+                if message.notify:
+                    ws_send(message)
 
                 if self.data.action == ORDER_CREATE:
                     return self.create(client, order)

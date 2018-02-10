@@ -2,20 +2,19 @@
     'use strict';
 
     angular.module('app')
-        .controller('AppCtrl', ['$scope', '$rootScope', '$state', '$document', 'appConfig', 'AppUtilsService', 'AuthService', 'UserService', 'NotificationService', AppCtrl]); // overall control
+        .controller('AppCtrl', ['$scope', '$rootScope', '$state', '$document', 'appConfig', 'AppUtilsService', 'AuthService', 'UserService', 'MessageService', 'NotificationService', AppCtrl]); // overall control
 
-    function AppCtrl($scope, $rootScope, $state, $document, appConfig, AppUtilsService, AuthService, UserService, NotificationService) {
+    function AppCtrl($scope, $rootScope, $state, $document, appConfig, AppUtilsService, AuthService, UserService, MessageService, NotificationService) {
 
         $scope.pageTransitionOpts = appConfig.pageTransitionOpts;
         $scope.main = appConfig.main;
         $scope.color = appConfig.color;
         $scope.myUser = null;
         $scope.notifications = [];
+        $scope.notificationsSize = 5;
 
-        UserService.getMyUser(getMyUserSuccess, getMyUserError);
-
-        NotificationService.setReceiveCallback(receiveCallback);
-        NotificationService.connect();
+        //UserService.getMyUser(getMyUserSuccess, getMyUserError);
+        getMyUserSuccess({id: 1, name: "Py Food Bot"}); // TODO remove mock user
 
         $scope.logout = function(){
             AuthService.logout(function(){
@@ -62,17 +61,29 @@
         });
 
         function receiveCallback(notification){
-            notification = AppUtilsService.getNotificationModel(notification);
-            $scope.notifications.push(notification);
+            $scope.notifications.pop(notification);
+
+            if($scope.notifications.length > $scope.notificationsSize)
+                $scope.notifications = $scope.notifications.slice(0, $scope.notificationsSize);
+
             $scope.$apply();
         }
 
         function getMyUserSuccess(response){
             $scope.myUser = response.data;
+            MessageService.notifications(getNotificationsSuccess);
         }
+
         function getMyUserError(data){
-            //AppUtilsService.showErrorToast('Ops, parece que você está deslogado...');
-            //$state.go('login');
+            AppUtilsService.showErrorToast('Ops, parece que você está deslogado...');
+            $state.go('login');
+        }
+
+        function getNotificationsSuccess(data){
+            $scope.notifications = (data.length < 5) ? data : data.slice(0, 5);
+
+            NotificationService.setReceiveCallback(receiveCallback);
+            NotificationService.connect();
         }
     }
 

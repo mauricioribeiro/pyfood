@@ -25,7 +25,7 @@ class MessageDetail(MessageView, generics.RetrieveUpdateDestroyAPIView):
 class MessageNotificationList(MessageView, generics.ListAPIView, generics.UpdateAPIView):
 
     def list(self, request, *args, **kwargs):
-        self.queryset = self.model.objects.filter(notify=True, visualized=False)
+        self.queryset = self.model.objects.filter(notify=True, visualized=False).order_by('-id')
         return super().list(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
