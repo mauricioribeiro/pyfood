@@ -8,6 +8,7 @@
     function NotificationService($location, $filter) {
         var socket = null;
         var receiveCallback = null;
+        var tune = new Audio("http://localhost:3000/assets/notification.mp3");
 
         this.setReceiveCallback = function(callback){
             receiveCallback = callback;
@@ -28,6 +29,7 @@
                 var notification = JSON.parse(event.data);
                 if(typeof receiveCallback == 'function'){
                     receiveCallback(notification);
+                    tune.play();
                 } else {
                     console.log(notification);
                 }
