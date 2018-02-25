@@ -31,7 +31,11 @@
         };
 
         this.transformResponses = function(responseData){
-            return responseData.map(function(d){ return transformResponse(d); });
+            if(responseData){
+                responseData = angular.fromJson(responseData);
+                return responseData.map(function(d){ return transformResponse(d); });
+            }
+            return [];
         };
 
         function transformRequest(requestData){

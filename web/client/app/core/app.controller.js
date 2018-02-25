@@ -31,14 +31,11 @@
         };
 
         $scope.visualize = function(notification){
-        }
+            MessageService.visualize(notification).$promise.then(visualizeSuccess);
+        };
 
         $scope.$watch('main', function(newVal, oldVal) {
-            // if (newVal.menu !== oldVal.menu || newVal.layout !== oldVal.layout) {
-            //     $rootScope.$broadcast('layout:changed');
-            // }
-
-            if (newVal.menu === 'horizontal' && oldVal.menu === 'vertical') {
+             if (newVal.menu === 'horizontal' && oldVal.menu === 'vertical') {
                 $rootScope.$broadcast('nav:reset');
             }
             if (newVal.fixedHeader === false && newVal.fixedSidebar === true) {
@@ -83,6 +80,11 @@
 
             NotificationService.setReceiveCallback(receiveCallback);
             NotificationService.connect();
+        }
+
+        function visualizeSuccess(data){
+            $scope.notifications = $scope.notifications.filter(function(n){ return n.id !== data.id });
+            // TODO go to order page
         }
     }
 

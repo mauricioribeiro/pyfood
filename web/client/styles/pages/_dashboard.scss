@@ -1,5 +1,50 @@
 .page-dashboard {
 
+    md-card.order {
+        position: relative;
+
+        md-card-title {
+            padding: 12px 16px;
+
+            .md-subhead{
+                padding-top: 0
+            }
+        }
+
+        small {
+            color: #808080
+        }
+
+        .status {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #fff;
+            width: 20%;
+            height: 100%;
+            padding-top: 38px;
+            text-align: center;
+            text-shadow: 1px 1px #252525;
+            font-size: 16px;
+        }
+
+        .opened-status {
+            background: #9329dc !important;
+        }
+        .processed-status {
+            background: #7e94ef !important;
+        }
+        .sent-status {
+            background: #3cc128 !important;
+        }
+        .delivered-status {
+            background: #000 !important;
+        }
+        .canceled-status {
+            background: #666 !important;
+        }
+    }
+
     h3 {
         font-size: 22px;
         font-weight: normal;
@@ -13,7 +58,7 @@
 
     .box-stats {
         text-align: center;
-        padding-top: 20px; 
+        padding-top: 20px;
         padding-bottom: 20px;
         &.no-border {
             .box-num {
@@ -57,7 +102,7 @@
         margin-bottom: 25px;
     }
 
-    // 
+    //
     .panel-box {
         position: relative;
         border-radius: $border-radius-large;
@@ -101,6 +146,6 @@
         .bg-light {
             background-color: #f9f9f9;
         }
-    }    
+    }
 
 }

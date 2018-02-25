@@ -6,8 +6,8 @@
                 function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
 
                 $stateProvider
-                    .state('dashboard', {
-                        url: '/dashboard',
+                    .state('ultimos-pedidos', {
+                        url: '/ultimos-pedidos',
                         templateUrl: 'app/dashboard/dashboard.html',
                         controller: 'DashboardCtrl',
                         resolve: {
@@ -23,8 +23,8 @@
                     });
 
                 $urlRouterProvider
-                    .when('/', '/dashboard')
-                    .otherwise('/dashboard');
+                    .when('/', '/ultimos-pedidos')
+                    .otherwise('/ultimos-pedidos');
             }
         ]);
 

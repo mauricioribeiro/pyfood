@@ -18,6 +18,7 @@ class OrderSerializer(ModelSerializer):
             'client',
             'items',
             'status',
+            'status_label',
             'total',
             'messages',
             'created_on',

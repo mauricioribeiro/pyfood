@@ -2,12 +2,12 @@
     'use strict';
 
     angular.module('app.services')
-        .service('MessageService', MessageService);
+        .service('OrderService', OrderService);
 
     /** @ngInject */
-    function MessageService($resource, RestService) {
+    function OrderService($resource, RestService) {
 
-        var resourceURI = RestService.getURI() + 'messages/:id';
+        var resourceURI = RestService.getURI() + 'orders/:id';
 
         function transformResponse(responseData){
             return RestService.transformResponse(responseData);
@@ -28,12 +28,6 @@
                 url: resourceURI + '/',
                 transformResponse: transformResponse
             },
-            'notifications': {
-                method: 'GET',
-                url: RestService.getURI() + 'messages/notifications/',
-                transformResponse: transformArrayResponse,
-                isArray: true
-            },
             'update': {
                 method: 'PUT',
                 url: resourceURI + '/',
@@ -48,11 +42,7 @@
             'save': {
                 method: 'POST',
                 transformRequest: RestService.transformRequest
-            },
-            'visualize': {
-                method: 'PUT',
-                url: RestService.getURI() + 'messages/notifications/'
-            },
+            }
         });
     }
 

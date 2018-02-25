@@ -1,7 +1,7 @@
 from django.db import models
 
 from api.models.client import Client
-from api.models.utils import OPENED
+from api.models.utils import OPENED, ORDER_STATUSES
 from . import utils
 
 
@@ -25,6 +25,14 @@ class Order(models.Model):
         if self.items:
             return sum([item.total for item in self.items.all()])
         return 0
+
+    @property
+    def status_label(self):
+        if self.status:
+            for status, label in ORDER_STATUSES:
+                if status == self.status:
+                    return label
+        return None
 
     class Meta:
         verbose_name = 'Pedido'
