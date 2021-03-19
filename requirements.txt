@@ -11,7 +11,7 @@ constantly==15.1.0
 daphne==1.4.2
 Django==2.0.1
 django-cors-headers==2.1.0
-djangorestframework==3.7.7
+djangorestframework==3.11.2
 hyperlink==17.3.1
 idna==2.6
 incremental==17.5.0
